@@ -2,5 +2,10 @@ pandas
 numpy
 scipy
 googlemaps
-shapely
 geopy
+imbalanced-learn
+tensorflow
+keras-tuner
+xgboost
+ray
+hyperopt
