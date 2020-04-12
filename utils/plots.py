@@ -18,61 +18,70 @@ def plot_categorical_distribution(df: pd.DataFrame, column: str, target_var="noS
     dataset_key (str - defaults to "appointmentId") - column name of the unique key in the dataset
     ncols (int - defaults to 3) - number of columns    
     """
+    # define the order in which the elements are plotted
     if order is None:
         values = list(df[column].unique())
         values.sort()
     else:
         values = order
+    
+    # define the labels and colors
     labels = [True,False]
     n_values = len(values)
     sns.set_palette("pastel")
-    colors = sns.color_palette("pastel", 2)
-    colors.reverse()
+    #colors = sns.color_palette("pastel", 2 + n)[2:]
+    #colors.reverse()
 
     if n_values == 2:
         ncols = 2
     else:
+        # delete?
         occurrences_count = df[[column,target_var]]\
                                 .groupby(column)[target_var]\
                                 .agg([np.mean])\
                                 .rename(columns={"mean":"percentageNoShow"})\
                                 .reset_index()
-        #values = occurrences_count\
-        #            .sort_values(by="percentageNoShow",ascending=False)[column].tolist()
     
-    nrows = math.ceil(n_values/ncols) + 1
-    fig = plt.figure(constrained_layout=True,figsize=(14,5*nrows))
+    nrows = 1 # math.ceil(n_values/ncols) + 1
+    fig = plt.figure(constrained_layout=True,figsize=(17,5*nrows))
     gs = fig.add_gridspec(nrows=nrows, ncols=ncols, left=0.05, right=0.48, wspace=0.05)
     
     
     occurrences_count = df[[column,target_var,dataset_key]]\
-                        .groupby([column,target_var]).count() 
+                            .groupby([column])[target_var].agg([np.mean])\
+                            .rename(columns={"mean":"percentageNoShow"})\
+                            .reset_index()
 
+    # plotting variable distribution incidence
+    fig_ax0 = fig.add_subplot(gs[0,0])
+    fig_ax0.set_title("Distribution for the column " + column)
+    g = sns.countplot(x=df[column], hue=df[column],ax=fig_ax0,order=values,dodge=False)
+    sns.despine()
+    fig_ax0.get_legend().remove()
+    # add values labels
+    for p in fig_ax0.patches:
+        height = p.get_height()
+        if not np.isnan(height):
+            fig_ax0.text(p.get_x()+p.get_width()/2.,
+                    height*0.5,
+                    int(height),
+                    ha="center",
+                    fontsize=14)
     
-    fig_ax0 = fig.add_subplot(gs[0,:])
-    fig_ax0.set_title("Distribution for the column " + column, fontsize=14, fontweight='bold')
-    if order is None: 
-        g = sns.countplot(x=df[column], hue=df[column],ax=fig_ax0,dodge=False)
-    else:
-        g = sns.countplot(x=df[column], hue=df[column],ax=fig_ax0,order=values,dodge=False)
-    #g.set_xticklabels(g.get_xticklabels(),rotation=45)
-    
-    row_id = 0
-    col_id = 0
-    for i in range(n_values):
-        size = [occurrences_count.loc[(values[i],labels[0])][0],
-                occurrences_count.loc[(values[i],labels[1])][0]]
-        if np.isnan(size).any():
-            continue
-        fig_ax = fig.add_subplot(gs[row_id+1,col_id])
-        fig_ax.set_title("Show vs. No Show for " + column + " = " + str(values[i]))
-        fig_ax.pie(size,
-                    colors=colors, 
-                    labels=labels, 
-                    autopct='%1.1f%%', 
-                    startangle=90)
-        row_id, col_id = increment_row_col_count(row_id,col_id,ncols)
-    
+    # plotting no-show incidence
+    fig_ax = fig.add_subplot(gs[0,1])
+    fig_ax.set_title("No-show incidence for " + column)
+    g1 = sns.barplot(x=column, y="percentageNoShow",data=occurrences_count,
+                       ax=fig_ax,dodge=False, order=values)
+    sns.despine()
+    # add values labels
+    for p in fig_ax.patches:
+        height = p.get_height()
+        fig_ax.text(p.get_x()+p.get_width()/2.,
+                height*0.5,
+                format_percentage(height),
+                ha="center",
+                fontsize=14) 
     plt.show()
 
     if n_values == 2:
@@ -82,11 +91,12 @@ def plot_categorical_distribution(df: pd.DataFrame, column: str, target_var="noS
                                             values = values)
 
 
-def increment_row_col_count(row_id,col_id,ncols):
+
+def format_percentage(num:float, n_digits:int = 2) -> str:
     """
-    Increments the row and col id, return a tuple with the updated values
+    Takes a float and returns it as a string formatted as a percentage with 2 decimals
     """
-    if col_id == ncols - 1:
-        return row_id +1, 0
-    else:
-        return row_id, col_id + 1
+    num *= (10**(2+n_digits))
+    num = int(num)
+    num /= 10**n_digits
+    return str(num) + "%"
