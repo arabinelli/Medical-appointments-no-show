@@ -3,9 +3,12 @@ numpy
 scipy
 googlemaps
 geopy
+scikit-learn
 imbalanced-learn
 tensorflow
 keras-tuner
 xgboost
 ray
 hyperopt
+mlflow
+eli5

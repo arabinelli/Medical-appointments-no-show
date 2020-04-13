@@ -9,14 +9,14 @@ from ray.tune.suggest.hyperopt import HyperOptSearch
 from tensorflow import keras
 
 from load_training_data import load_train_test_data
-from models.deep_and_wide import DeepAndWide
+from deep_and_wide import DeepAndWide
 
 
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 def train_nn(config, reporter):
     
-    epochs = 120
+    epochs = 80
     model = DeepAndWide(hidden_dim=config["hidden_dim"],
                         activation=config["activation"],
                         dropout=0.3,
@@ -70,14 +70,14 @@ if __name__ == "__main__":
 
     analysis = tune.run(
                     train_nn,
-                    name="dev",
+                    name="nn_20200413",
                     search_alg=algo,
                     scheduler=sched,
                     stop={
                         "keras_info/auc": 0.99,
-                        "training_iteration": 120
+                        "training_iteration": 100
                     },
-                    num_samples=100,
+                    num_samples=80,
                     config={
                         "threads": 2,
                         "iterations":100

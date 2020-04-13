@@ -24,13 +24,8 @@ def plot_categorical_distribution(df: pd.DataFrame, column: str, target_var="noS
         values.sort()
     else:
         values = order
-    
-    # define the labels and colors
-    labels = [True,False]
+
     n_values = len(values)
-    sns.set_palette("pastel")
-    #colors = sns.color_palette("pastel", 2 + n)[2:]
-    #colors.reverse()
 
     if n_values == 2:
         ncols = 2

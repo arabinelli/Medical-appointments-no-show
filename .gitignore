@@ -3,7 +3,7 @@
 capstone_proposal.zip
 .vscode
 **/logs
-
+**/mlruns
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

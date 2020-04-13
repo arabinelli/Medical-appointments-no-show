@@ -4,12 +4,12 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE, RandomOverSampler
 
 def load_train_test_data():
-    no_show_df = pd.read_csv("data/no_show_feature_engineered_no_extreme_locations.csv")
+    no_show_df = pd.read_csv("data/no_show_feature_engineered_no_extreme_locations_no_SMS_issues.csv")
 
     # encode the gender as a binary
     # NOTE: the gender didn't seem to affect no show by itself, but we're going to keep it and
     #       and verify if the model can still use it in conjunction with other variables
-    no_show_df["isFemale"] = no_show_df["gender"] == "F"
+    no_show_df["isFemale"] = (no_show_df["gender"] == "F")
 
     # select the columns that we want to keep
     FEATURE_COLS = ["age","scholarship","hypertension","diabetes","alcoholism","handicap","smsSent",
@@ -42,6 +42,7 @@ def load_train_test_data():
     y = no_show_df[TARGET_COLUMN].values
 
     SEQUENTIAL_SPLIT = False
+    USE_SMOTE = False
     # get train = 60%, validation = 20%, test = 20%
     if not SEQUENTIAL_SPLIT:
         train_X, test_X, train_y, test_y = train_test_split(X,y,test_size=0.2,random_state=127) # split between train and test
@@ -61,8 +62,12 @@ def load_train_test_data():
         train_y = train_y[:int(train_y.shape[0]*(0.75))]
 
         assert len(train_X) + len(val_X) + len(test_X) == len(X), "Something went wrong while splitting up the sets"
-    # using RandomOverSampler for generating synthetic samples to help with class imbalance
-    oversample = RandomOverSampler(random_state=127)
+    
+    # Generating additional samples of the minority class to help with class imbalance
+    if USE_SMOTE:
+        oversample = SMOTE(random_state=127)
+    else:
+        oversample = RandomOverSampler(random_state=127)
     train_X, train_y = oversample.fit_resample(train_X, train_y)
 
 
