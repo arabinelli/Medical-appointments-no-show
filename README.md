@@ -10,10 +10,10 @@ To install the dependencies, clone the repository, move to the root folder of th
 
 `pip3 install -r requirements.txt`
 
-#### Troubleshooting
-If running the hyperparameter tuning jobs, the Hyperopt package might need to be installed from source.
+#### Troubleshooting and notes
+* If running the hyperparameter tuning jobs, the Hyperopt package might need to be installed from source.
 
-Given the small size, the model has been trained locally on a CPU. GPU support has not been investigated.
+* Given the small size, the model has been trained locally on a CPU. GPU support has not been investigated.
 
 ### Codebase tour
 
@@ -33,7 +33,7 @@ The hyperparameter tuning has been performed for both model by using the [Tune p
 
 The optimal configuration found for the hyperameters of both models is provided in the `models/dnw_params.json` and `models/xgboost_params.json` files. This allows to skip the tuning process, which can take quite some time, especially for the neural network. The hyperparameters tuning jobs are coded in the `models/nn_hparams_tuning.py` and `models/xgboost_hparams_tuning.py` scripts. Both scripts use `models/load_training_data.py` to load and prepare the data. This last module contains a function that matches 1-to-1 the code at the beginning of the second notebook.
 
-[MLflow](https://mlflow.org/) has been used throughout the project to track the experiments.
+[MLflow](https://mlflow.org/) has been used throughout the project to keep track of the experiments.
 
 ## About the project
 
