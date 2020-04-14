@@ -1,5 +1,4 @@
 # A machine learning solution to medical appointment no-show
-**Andrea Rabinelli**
 ### Udacity Machine Learning Engineer Nanodegree - Capstone Project
 
 ## Getting started
@@ -68,6 +67,9 @@ Other studies have proven this network architecture to be very effective for dif
 
 ## Bibliography
 * Cheng, Heng-Tze, Mustafa Ispir, Rohan Anil, Zakaria Haque, Lichan Hong, Vihan Jain, Xiaobing Liu, et al. 2016. “Wide &amp; Deep Learning for Recommender Systems.” Proceedings of the 1st Workshop on Deep Learning for Recommender Systems - DLRS 2016. doi:10.1145/2988450.2988454.
+* Few S. “Tapping the Power of Visual Perception”, Perceptual Edge. https://www.perceptualedge.com/articles/ie/visual_perception.pdf. 2004
+* Kingma, Diederik P., and Jimmy Ba. "Adam: A method for stochastic optimization." arXiv preprint arXiv:1412.6980 (2014).
+* Li, Liam, Kevin Jamieson, Afshin Rostamizadeh, Ekaterina Gonina, Moritz Hardt, Benjamin Recht, and Ameet Talwalkar. "Massively parallel hyperparameter tuning." arXiv preprint arXiv:1810.05934 (2018).
 * Srinivas, Sharan, and A. Ravi Ravindran. 2018. “Optimizing Outpatient Appointment System Using Machine Learning Algorithms and Scheduling Rules: A Prescriptive Analytics Framework.” Expert Systems with Applications 102: 245–61. doi:10.1016/j.eswa.2018.02.022.
 * Sviokla, John, Bret Schroeder, and Tom Weakland. 2014. “How Behavioral Economics Can Help Cure the Health Care Crisis.” Harvard Business Review. August 20. https://hbr.org/2010/03/how-behavioral-economics-can-h.
 * Zheng, Zibin, Yatao Yang, Xiangdong Niu, Hong-Ning Dai, and Yuren Zhou. 2018. “Wide and Deep Convolutional Neural Networks for Electricity-Theft Detection to Secure Smart Grids.” IEEE Transactions on Industrial Informatics 14 (4): 1606–15. doi:10.1109/tii.2017.2785963.
