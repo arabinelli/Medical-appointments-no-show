@@ -10,11 +10,12 @@ list_of_neighborhoods.columns = ["neighborhood"]
 
 gmaps = googlemaps.Client(key="YOUR API KEY")
 
-# we get the distance from the center
+# we get the coordinates of the city center
 city_center_coordinates = gmaps.geocode("Vitoria, Brazil")
 center_lat = city_center_coordinates[0]["geometry"]["location"]["lat"]
 center_lon = city_center_coordinates[0]["geometry"]["location"]["lng"]
 
+# then we query every neighborhoods
 list_lat = []
 list_lon = []
 for neighborhood in list_of_neighborhoods.neighborhood:
@@ -38,6 +39,7 @@ for neighborhood in list_of_neighborhoods.neighborhood:
 list_of_neighborhoods["lat"] = list_lat 
 list_of_neighborhoods["lon"] = list_lon
 
+# calculate the distances with the distance module of the geopy package
 distance_from_center = []
 distance_from_center_lat = [] # fixing longitude and looking at east-west distance
 distance_from_center_lon = [] # fixing latitude and looking at north-south distance
@@ -56,4 +58,5 @@ list_of_neighborhoods["distanceFromCenter"] = distance_from_center
 list_of_neighborhoods["distanceFromCenterLat"] = distance_from_center_lat
 list_of_neighborhoods["distanceFromCenterLon"] = distance_from_center_lon
 
+# write to disk
 list_of_neighborhoods.to_csv("./data/geocoded_neighborhoods.csv",index=False,header=True)

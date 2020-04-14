@@ -18,6 +18,9 @@ def XGBCallback(env):
 
 
 def train_XGBoost(config):
+    """
+    Helper function that trains the XGBoost model with the provided hparams. Called by ray.Tune
+    """
     train_set = xgb.DMatrix(train_X, label=train_y)
     val_set = xgb.DMatrix(val_X, label=val_y)
     bst = xgb.train(
@@ -30,23 +33,26 @@ def train_XGBoost(config):
 
 if __name__ == "__main__": 
     train_X, train_y, val_X, val_y, _, _ = load_train_test_data()
+        
+    # shutdown the service in case if was left on, then initializes it again
     ray.shutdown()
     ray.init(num_cpus=2)
 
-
+    # defines the search space for the hyperparameters
     space = {
         'max_depth': hp.randint('max_depth', 1, 9),
         'eta': hp.loguniform('eta', -4.0, -1.0),
         'gamma': hp.loguniform('gamma',-8.0, 0.0),
         "grow_policy": hp.choice("grow_policy",["depthwise", "lossguide"]),
         "colsample_bytree": hp.uniform("colsample_bytree",0.3,0.7),
-        "min_child_weight": hp.randint("min_child_weight",1,7),
-        
+        "min_child_weight": hp.randint("min_child_weight",1,7)      
     }
 
+     # define the hparams search algorithm, in charge of selecting promising values for the next iterations
     algo = HyperOptSearch(
         space, max_concurrent=4, metric="val_auc", mode="max")
 
+    # other parameters needed by XGBoost
     config = {
         "verbosity": 0,
         "num_threads": 2,
@@ -55,6 +61,8 @@ if __name__ == "__main__":
         "eval_metric": ["auc", "ams@0", "logloss"]
     }
 
+    # run the analysis
+    # the scheduler is directly specified in the run() arguments
     analysis = tune.run(
         train_XGBoost,
         name="xgboost",

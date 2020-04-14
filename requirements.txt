@@ -3,6 +3,8 @@ numpy
 scipy
 googlemaps
 geopy
+jupyter
+notebook
 scikit-learn
 imbalanced-learn
 tensorflow

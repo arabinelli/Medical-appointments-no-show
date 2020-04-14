@@ -4,6 +4,9 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE, RandomOverSampler
 
 def load_train_test_data():
+    """
+    Loads the data, selects the features, normalizes the values, and splits it into train/validation/test set
+    """
     no_show_df = pd.read_csv("data/no_show_feature_engineered_no_extreme_locations_no_SMS_issues.csv")
 
     # encode the gender as a binary
@@ -21,7 +24,7 @@ def load_train_test_data():
     # target column
     TARGET_COLUMN = "noShow"
 
-    # prepare dataset for models
+    # prepare dataset for models by normalizing and scaling the features
     no_show_df["age"] = (no_show_df["age"]-no_show_df["age"].mean())/no_show_df["age"].std()
 
     no_show_df["daysInAdvance"] = (no_show_df["daysInAdvance"]-no_show_df["daysInAdvance"].min())/\
@@ -38,6 +41,7 @@ def load_train_test_data():
 
     no_show_df = no_show_df.sort_values(['appointmentDay','scheduledDay'])
 
+    # turns the DataFrame into np.array
     X = no_show_df[FEATURE_COLS].values
     y = no_show_df[TARGET_COLUMN].values
 
@@ -53,7 +57,8 @@ def load_train_test_data():
         train_y = y[:int(y.shape[0]*(0.8))]
         test_X = X[int(X.shape[0]*(0.8)):]
         test_y = y[int(y.shape[0]*(0.8)):]
-
+        
+        # extracts validation from training set
         val_X = train_X[int(train_X.shape[0]*(0.75)):]
         val_y = train_y[int(train_y.shape[0]*(0.75)):]
 
@@ -61,6 +66,7 @@ def load_train_test_data():
         train_X = train_X[:int(train_X.shape[0]*(0.75))]
         train_y = train_y[:int(train_y.shape[0]*(0.75))]
 
+        # sanity check
         assert len(train_X) + len(val_X) + len(test_X) == len(X), "Something went wrong while splitting up the sets"
     
     # Generating additional samples of the minority class to help with class imbalance
@@ -69,7 +75,6 @@ def load_train_test_data():
     else:
         oversample = RandomOverSampler(random_state=127)
     train_X, train_y = oversample.fit_resample(train_X, train_y)
-
 
     train_X = train_X.astype(np.float32)
     val_X = val_X.astype(np.float32)

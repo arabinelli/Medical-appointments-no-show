@@ -11,11 +11,12 @@ from tensorflow import keras
 from load_training_data import load_train_test_data
 from deep_and_wide import DeepAndWide
 
-
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 def train_nn(config, reporter):
-    
+    """
+    Function that builds, compiles, and fit the Deep and Wide model. To be called by ray.Tune
+    """
     epochs = 80
     model = DeepAndWide(hidden_dim=config["hidden_dim"],
                         activation=config["activation"],
@@ -47,8 +48,11 @@ def train_nn(config, reporter):
 if __name__ == "__main__":
     train_X, train_y, val_X, val_y, _, _ = load_train_test_data()
     
+    # shutdown the service in case if was left on, then initializes it again
     ray.shutdown()
     ray.init(num_cpus=2)
+
+    # defines the scheduler in charge of allocating resources to each job
     sched = AsyncHyperBandScheduler(
         time_attr="training_iteration",
         metric="keras_info/auc",
@@ -56,6 +60,7 @@ if __name__ == "__main__":
         max_t=400,
         grace_period=10)
 
+    # defines the search space for the hyperparameters
     space = {
         'hidden_dim': hp.randint('hidden_dim', 32, 256),
         'regularization': hp.loguniform('regularization', -4.0, -2.0),
@@ -65,9 +70,11 @@ if __name__ == "__main__":
         
     }
 
+    # define the hparams search algorithm, in charge of selecting promising values for the next iterations
     algo = HyperOptSearch(
         space, max_concurrent=4, metric="keras_info/auc", mode="max")
 
+    # finally run the hyperparameters tuning job
     analysis = tune.run(
                     train_nn,
                     name="nn_20200413",

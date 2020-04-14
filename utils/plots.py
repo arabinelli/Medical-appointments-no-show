@@ -69,6 +69,7 @@ def plot_categorical_distribution(df: pd.DataFrame, column: str, target_var="noS
     g1 = sns.barplot(x=column, y="percentageNoShow",data=occurrences_count,
                        ax=fig_ax,dodge=False, order=values)
     sns.despine()
+
     # add values labels
     for p in fig_ax.patches:
         height = p.get_height()
@@ -79,6 +80,7 @@ def plot_categorical_distribution(df: pd.DataFrame, column: str, target_var="noS
                 fontsize=14) 
     plt.show()
 
+    # if only two values are possible, perform an hypothesis test on the two distributuons
     if n_values == 2:
         hypothesis_test_binary_distribution(a = df[target_var].loc[df[column] == values[0]].astype(int),
                                             b= df[target_var].loc[df[column] == values[1]].astype(int),
