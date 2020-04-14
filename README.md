@@ -55,7 +55,15 @@ This dataset is made up of over 110k rows (none of which having missing values) 
 The dataset is explored in the first notebook **01. Exploratory Data Analysis**
 
 ### Predicting no-shows
-This project focused on investigating the effectiveness of Deep and Wide neural network architectures in predicting medical appointment no-shows. The concept of a deep and wide network was first introduced in the context of recommendation engines by a team of researchers of Google (Cheng, Heng-Tze, Mustafa Ispir, Rohan Anil, Zakaria Haque, Lichan Hong, Vihan Jain, Xiaobing Liu, et al. 2016.). The model takes its name from the two main components it can be divided into. The first component is a deep neural network, consisting of one or more hidden layers between the input and output layers. This part of the model is in charge of learning abstract, more general patterns (e.g. birds can fly). The other component of the model, the wide one, directly connects the input to the output layer, without any intermediate layers. This part of the network is in charge of memorizing certain patterns (e.g. penguins don’t fly). Other studies have proven this network architecture to be very effective for different tasks than recommending products, such as electricity theft detection (Zheng, Zibin, Yatao Yang, Xiangdong Niu, Hong-Ning Dai, and Yuren Zhou. 2018).
+This project focused on investigating the effectiveness of Deep and Wide neural network architectures in predicting medical appointment no-shows. The concept of a deep and wide network was first introduced in the context of recommendation engines by a team of researchers of Google (Cheng, Heng-Tze, Mustafa Ispir, Rohan Anil, Zakaria Haque, Lichan Hong, Vihan Jain, Xiaobing Liu, et al. 2016.). 
+
+The model takes its name from the two main components it can be divided into. 
+
+The first component is a deep neural network, consisting of one or more hidden layers between the input and output layers. This part of the model is in charge of learning abstract, more general patterns (e.g. birds can fly). 
+
+The other component of the model, the wide one, directly connects the input to the output layer, without any intermediate layers. This part of the network is in charge of memorizing certain patterns (e.g. penguins don’t fly). 
+
+Other studies have proven this network architecture to be very effective for different tasks than recommending products, such as electricity theft detection (Zheng, Zibin, Yatao Yang, Xiangdong Niu, Hong-Ning Dai, and Yuren Zhou. 2018).
 
 
 ## Bibliography
