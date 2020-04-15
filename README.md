@@ -33,7 +33,7 @@ The hyperparameter tuning has been performed for both model by using the [Tune p
 
 The optimal configuration found for the hyperameters of both models is provided in the `models/dnw_params.json` and `models/xgboost_params.json` files. This allows to skip the tuning process, which can take quite some time, especially for the neural network. The hyperparameters tuning jobs are coded in the `models/nn_hparams_tuning.py` and `models/xgboost_hparams_tuning.py` scripts. Both scripts use `models/load_training_data.py` to load and prepare the data. This last module contains a function that matches 1-to-1 the code at the beginning of the second notebook.
 
-[MLflow](https://mlflow.org/) has been used throughout the project to keep track of the experiments. Also, the [eli5](https://github.com/TeamHG-Memex/eli5/) package has been used to 
+[MLflow](https://mlflow.org/) has been used throughout the project to keep track of the experiments. Also, the [eli5](https://github.com/TeamHG-Memex/eli5/) package has been used to perform a permutation analysis on the models.
 
 ## About the project
 
