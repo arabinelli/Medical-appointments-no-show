@@ -48,7 +48,7 @@ if __name__ == "__main__":
         "min_child_weight": hp.randint("min_child_weight",1,7)      
     }
 
-     # define the hparams search algorithm, in charge of selecting promising values for the next iterations
+    # define the hparams search algorithm, in charge of selecting promising values for the next iterations
     algo = HyperOptSearch(
         space, max_concurrent=4, metric="val_auc", mode="max")
 

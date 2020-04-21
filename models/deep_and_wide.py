@@ -33,11 +33,12 @@ class DeepAndWide(keras.Model):
     
     def call(self,inputs,training=False):
         """
-        Defines the 
+        Defines the model architecture
         """
-        inputs
-        for _ in range(self.n_hidden_layers):
-            x2 = self.hidden(inputs)
+        x2 = self.hidden(inputs)
+        x2 = self.dropout(x2, training=training)
+        for _ in range(self.n_hidden_layers - 1):
+            x2 = self.hidden(x2)
             x2 = self.dropout(x2, training=training)
         x = keras.layers.concatenate([inputs,x2])
         output = self.output_layer(x)
