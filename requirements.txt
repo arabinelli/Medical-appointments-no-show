@@ -8,7 +8,6 @@ notebook
 scikit-learn
 imbalanced-learn
 tensorflow
-keras-tuner
 xgboost
 ray
 hyperopt

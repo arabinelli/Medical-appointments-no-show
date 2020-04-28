@@ -1,7 +1,4 @@
-import tensorflow as tf
 from tensorflow import keras
-from kerastuner.tuners import Hyperband
-
 
 class DeepAndWide(keras.Model):
     """
@@ -26,9 +23,9 @@ class DeepAndWide(keras.Model):
         """
         super().__init__(**kwargs)
         self.hidden = keras.layers.Dense(hidden_dim,activation=activation, 
-                                        kernel_regularizer=keras.regularizers.l2(regularization),name="Hidden")
+                                        kernel_regularizer=keras.regularizers.l2(regularization))
         self.output_layer = keras.layers.Dense(1,activation="sigmoid")
-        self.dropout = tf.keras.layers.Dropout(dropout)
+        self.dropout = keras.layers.Dropout(dropout)
         self.n_hidden_layers = n_hidden_layers
     
     def call(self,inputs,training=False):
