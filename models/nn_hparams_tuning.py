@@ -9,7 +9,7 @@ from ray.tune.suggest.hyperopt import HyperOptSearch
 from tensorflow import keras
 
 from load_training_data import load_train_test_data
-from deep_and_wide import DeepAndWide
+from deep_and_wide import DeepAndWide, deep_and_wide
 
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
@@ -18,7 +18,7 @@ def train_nn(config, reporter):
     Function that builds, compiles, and fit the Deep and Wide model. To be called by ray.Tune
     """
     epochs = 80
-    model = DeepAndWide(hidden_dim=config["hidden_dim"],
+    model = deep_and_wide(hidden_dim=config["hidden_dim"],
                         activation=config["activation"],
                         dropout=0.3,
                         n_hidden_layers=config["n_hidden_layers"],

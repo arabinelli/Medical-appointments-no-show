@@ -1,1 +1,1 @@
-{"threads": 2, "iterations": 100, "activation": "relu", "hidden_dim": 35, "lr": 0.2823752850989008, "n_hidden_layers": 3, "regularization": 0.0626412266379187}
+{"threads": 2, "iterations": 100, "activation": "relu", "hidden_dim": 80, "lr": 0.3565941314421024, "n_hidden_layers": 2, "regularization": 0.0643143379441217}
