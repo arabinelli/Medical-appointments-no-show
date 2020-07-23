@@ -11,5 +11,5 @@ def deep_and_wide(hidden_dim=64,activation="relu",dropout=0.3,n_hidden_layers=2,
     x = keras.layers.concatenate([x1,x2])
     x = keras.layers.Dense(1,activation="sigmoid")(x)
 
-    model = keras.Model(inputs, x, name="minigooglenet")
+    model = keras.Model(inputs, x, name="DeepAndWide")
     return model
